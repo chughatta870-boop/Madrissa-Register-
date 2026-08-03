@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#0B4A3A">
+<meta name="description" content="Madrissa Students Attendance Register - 100% Offline PWA">
+<title>Madrissa Attendance Register</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== Top App Bar ===== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <img src="icon-96.png" alt="logo" class="brand-logo">
+      <div class="brand-text">
+        <h1 id="madrissaNameDisplay">Madrissa Attendance Register</h1>
+        <p id="inchargeDisplay" class="brand-sub">Incharge: --</p>
+      </div>
+    </div>
+    <button class="icon-btn" id="menuBtn" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ===== Side Drawer ===== -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<nav class="drawer" id="drawer">
+  <div class="drawer-head">
+    <img src="icon-96.png" alt="logo">
+    <div>
+      <strong>Madrissa Register</strong>
+      <span>M Ijaz &middot; GHS 124/NB</span>
+    </div>
+  </div>
+  <button class="drawer-link active" data-view="dashboard">
+    <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Dashboard
+  </button>
+  <button class="drawer-link" data-view="attendance">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Daily Attendance
+  </button>
+  <button class="drawer-link" data-view="students">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Students
+  </button>
+  <button class="drawer-link" data-view="reports">
+    <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Monthly Reports
+  </button>
+  <button class="drawer-link" data-view="settings">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Settings
+  </button>
+  <div class="drawer-footer">
+    <button id="backupBtn" class="drawer-link">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Backup / Restore
+    </button>
+  </div>
+</nav>
+
+<!-- ===== Main content ===== -->
+<main id="main">
+
+  <!-- DASHBOARD -->
+  <section class="view active" id="view-dashboard">
+    <div class="stats-grid">
+      <div class="stat-card stat-green">
+        <span class="stat-num" id="statTotalStudents">0</span>
+        <span class="stat-label">Total Students</span>
+      </div>
+      <div class="stat-card stat-gold">
+        <span class="stat-num" id="statTodayMarked">0</span>
+        <span class="stat-label">Marked Today</span>
+      </div>
+      <div class="stat-card stat-blue">
+        <span class="stat-num" id="statPresentToday">0</span>
+        <span class="stat-label">Present Today</span>
+      </div>
+      <div class="stat-card stat-red">
+        <span class="stat-num" id="statAbsentToday">0</span>
+        <span class="stat-label">Absent Today</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>Today's Attendance</h2>
+        <span id="todayDateLabel" class="pill"></span>
+      </div>
+      <div id="dashTodayList" class="today-list"></div>
+      <button class="btn btn-primary btn-block" data-goto="attendance">Go to Daily Attendance</button>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>Quick Actions</h2>
+      </div>
+      <div class="quick-actions">
+        <button class="qa-btn" data-goto="students"><span>&#128100;</span>Add Student</button>
+        <button class="qa-btn" data-goto="reports"><span>&#128202;</span>Monthly Report</button>
+        <button class="qa-btn" id="qaShare"><span>&#128228;</span>Share Report</button>
+        <button class="qa-btn" id="qaDownload"><span>&#11015;&#65039;</span>Download Backup</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAILY ATTENDANCE -->
+  <section class="view" id="view-attendance">
+    <div class="card sticky-top">
+      <div class="date-row">
+        <button class="icon-btn small" id="dateBack">&#8249;</button>
+        <input type="date" id="attendanceDate" class="date-input">
+        <button class="icon-btn small" id="dateFwd">&#8250;</button>
+        <button class="icon-btn small" id="dateToday" title="Today">&#128197;</button>
+      </div>
+      <div class="prayer-chips-row" id="prayerChipsRow"></div>
+      <div class="mark-all-row">
+        <span>Mark all:</span>
+        <button class="chip chip-present" data-markall="P">Present</button>
+        <button class="chip chip-absent" data-markall="A">Absent</button>
+        <button class="chip chip-leave" data-markall="L">Leave</button>
+        <button class="chip chip-clear" data-markall="clear">Clear</button>
+      </div>
+      <input type="text" id="attSearch" class="search-input" placeholder="Search student name or roll no...">
+    </div>
+    <div id="attendanceList" class="student-att-list"></div>
+    <div id="attEmptyState" class="empty-state hidden">
+      <p>No students yet.</p>
+      <button class="btn btn-primary" data-goto="students">Add Students</button>
+    </div>
+  </section>
+
+  <!-- STUDENTS -->
+  <section class="view" id="view-students">
+    <div class="card">
+      <div class="card-head">
+        <h2>Students</h2>
+        <button class="btn btn-primary btn-sm" id="addStudentBtn">+ Add Student</button>
+      </div>
+      <input type="text" id="studentSearch" class="search-input" placeholder="Search by name or roll no...">
+      <div id="studentsList" class="students-list"></div>
+      <div id="studentsEmpty" class="empty-state hidden">
+        <p>No students added yet. Tap "Add Student" to begin.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORTS -->
+  <section class="view" id="view-reports">
+    <div class="card">
+      <div class="card-head">
+        <h2>Monthly Report</h2>
+      </div>
+      <div class="month-row">
+        <button class="icon-btn small" id="monthBack">&#8249;</button>
+        <input type="month" id="reportMonth" class="date-input">
+        <button class="icon-btn small" id="monthFwd">&#8250;</button>
+      </div>
+      <label class="field-label">Prayer</label>
+      <select id="reportPrayerFilter" class="text-input">
+        <option value="ALL">All Prayers (Combined)</option>
+        <option value="Fajr">Fajr</option>
+        <option value="Zuhr">Zuhr</option>
+        <option value="Asr">Asr</option>
+        <option value="Maghrib">Maghrib</option>
+        <option value="Isha">Isha</option>
+      </select>
+      <input type="text" id="reportSearch" class="search-input" placeholder="Search student...">
+      <div class="table-wrap">
+        <table class="report-table" id="reportTable">
+          <thead>
+            <tr>
+              <th>Roll</th>
+              <th>Name</th>
+              <th>P</th>
+              <th>A</th>
+              <th>L</th>
+              <th>Total</th>
+              <th>%</th>
+            </tr>
+          </thead>
+          <tbody id="reportTbody"></tbody>
+        </table>
+      </div>
+      <div class="report-actions">
+        <button class="btn btn-secondary" id="reportDownloadCsv">Download CSV</button>
+        <button class="btn btn-secondary" id="reportDownloadPdf">Download / Print PDF</button>
+        <button class="btn btn-primary" id="reportShare">Share Report</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="view" id="view-settings">
+    <div class="card">
+      <div class="card-head"><h2>Madrissa Information</h2></div>
+      <label class="field-label">Madrissa Name</label>
+      <input type="text" id="settingMadrissaName" class="text-input" placeholder="e.g. Jamia Masjid Madrissa">
+      <label class="field-label">Incharge Name</label>
+      <input type="text" id="settingIncharge" class="text-input" placeholder="e.g. Qari Muhammad Ijaz">
+      <label class="field-label">Address / Area (optional)</label>
+      <input type="text" id="settingAddress" class="text-input" placeholder="e.g. Chak No. 124/NB">
+      <button class="btn btn-primary btn-block" id="saveSettingsBtn">Save Settings</button>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Backup &amp; Restore</h2></div>
+      <p class="hint-text">Your data is stored 100% offline on this device. Download a backup regularly to avoid data loss.</p>
+      <div class="report-actions">
+        <button class="btn btn-secondary btn-block" id="settingsDownloadBackup">Download Backup (JSON)</button>
+        <label class="btn btn-secondary btn-block file-label">
+          Restore from Backup
+          <input type="file" id="restoreFile" accept="application/json" hidden>
+        </label>
+        <button class="btn btn-danger btn-block" id="clearAllBtn">Erase All Data</button>
+      </div>
+    </div>
+
+    <div class="card about-card">
+      <div class="card-head"><h2>About</h2></div>
+      <p class="hint-text">Madrissa Students Attendance Register &middot; 100% Offline PWA<br>
+      Developed &amp; maintained by <strong>M Ijaz &middot; GHS 124/NB</strong></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Bottom Nav (mobile) ===== -->
+<nav class="bottom-nav">
+  <button class="bn-item active" data-view="dashboard">
+    <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="bn-item" data-view="attendance">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Attendance</span>
+  </button>
+  <button class="bn-item" data-view="students">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Students</span>
+  </button>
+  <button class="bn-item" data-view="reports">
+    <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Reports</span>
+  </button>
+</nav>
+
+<!-- ===== Student Modal ===== -->
+<div class="modal-overlay" id="studentModalOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="studentModalTitle">Add Student</h3>
+      <button class="icon-btn small" id="closeStudentModal">&#10005;</button>
+    </div>
+    <label class="field-label">Roll No</label>
+    <input type="text" id="modalRollNo" class="text-input" placeholder="e.g. 12">
+    <label class="field-label">Student Name</label>
+    <input type="text" id="modalStudentName" class="text-input" placeholder="e.g. Muhammad Hassan">
+    <input type="hidden" id="modalStudentId">
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="cancelStudentModal">Cancel</button>
+      <button class="btn btn-primary" id="saveStudentModal">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Confirm Dialog ===== -->
+<div class="modal-overlay" id="confirmOverlay">
+  <div class="modal small">
+    <p id="confirmMessage">Are you sure?</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
+      <button class="btn btn-danger" id="confirmOk">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<footer class="app-watermark">M Ijaz &middot; GHS 124/NB</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
