@@ -1,0 +1,73 @@
+{
+  "id": ".",
+  "name": "Madrissa Students Attendance Register",
+  "short_name": "Madrissa Register",
+  "description": "100% offline Madrissa students attendance register with prayer-wise (Fajr, Zuhr, Asr, Maghrib, Isha) daily marking, marks-based weekly/monthly student positions, 8-group standings, and backup/share. By M Ijaz, GHS 124/NB.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "portrait-primary",
+  "background_color": "#FAF7EE",
+  "theme_color": "#0B4A3A",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    { "src": "icon-72.png", "sizes": "72x72", "type": "image/png", "purpose": "any" },
+    { "src": "icon-96.png", "sizes": "96x96", "type": "image/png", "purpose": "any" },
+    { "src": "icon-128.png", "sizes": "128x128", "type": "image/png", "purpose": "any" },
+    { "src": "icon-144.png", "sizes": "144x144", "type": "image/png", "purpose": "any" },
+    { "src": "icon-152.png", "sizes": "152x152", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-384.png", "sizes": "384x384", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    {
+      "src": "shot-mobile-dashboard.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Dashboard with today's attendance summary"
+    },
+    {
+      "src": "shot-mobile-attendance.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mark attendance separately for each of the 5 daily prayers"
+    },
+    {
+      "src": "shot-wide-reports.png",
+      "sizes": "1024x768",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Monthly attendance report with auto-calculated percentages"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Attendance",
+      "short_name": "Attendance",
+      "description": "Mark today's attendance",
+      "url": ".",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Positions",
+      "short_name": "Positions",
+      "description": "View student and group positions",
+      "url": ".",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Monthly Reports",
+      "short_name": "Reports",
+      "description": "View monthly attendance report",
+      "url": ".",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    }
+  ]
+}
